@@ -7,15 +7,14 @@ class Usuario{
         $this -> conn = $db;
     }   
         public function registrar($nome, $sexo, $fone, $email, $senha){
-            $query = "INSERT INTO" . $this->table_name . "(nome, sexo, fone, email, senha)
-                        VALUES (?, ?, ?, ?, ?)";
+            $query = "INSERT INTO " . $this->table_name . " (nome, sexo, fone, email, senha) VALUES (?, ?, ?, ?, ?)";
             $stmt = $this->conn->prepare($query);
-            $hashed_password = password_hash($senha, PASSWORD_DEFAULT);
+            $hashed_password = password_hash($senha, PASSWORD_BCRYPT);
             $stmt->execute([$nome, $sexo, $fone, $email, $hashed_password]);
             return $stmt;
         }
 
-        public function login($email,$senha){
+        public function login($email, $senha){
             $query = "SELECT * FROM " . $this->table_name . " WHERE email = ?";
             $stmt = $this->conn->prepare($query);
             $stmt->execute([$email]);
@@ -31,10 +30,10 @@ class Usuario{
         }
         
         public function ler(){
-            $query= "SELECT * FROM" . $this->table_name;
+            $query = "SELECT * FROM " . $this->table_name;
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
-            return $stmt;
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
         public function lerPorId($id){
             $query = "SELECT * FROM " . $this->table_name . " WHERE id = ?";
@@ -42,10 +41,9 @@ class Usuario{
             $stmt->execute([$id]);
             return $stmt->fetch(PDO::FETCH_ASSOC);
         }
-        public function atualizar($id, $nome, $sexo, $fone, $email, $senha){
-            $query = "UPDATE " . $this->table_name . " SET nome = ?, sexo = ?, fone = ?, email = ?, senha = ? WHERE id = ?";
+        public function atualizar($id, $nome, $sexo, $fone, $email){
+            $query = "UPDATE " . $this->table_name . " SET nome = ?, sexo = ?, fone = ?, email = ? WHERE id = ?";
             $stmt = $this->conn->prepare($query);
-            $hashed_password = password_hash($senha, PASSWORD_DEFAULT);
             $stmt->execute([$nome, $sexo, $fone, $email, $id]);
             return $stmt; 
         }

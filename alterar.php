@@ -13,7 +13,7 @@ $nome = $_POST['nome'];
 $sexo = $_POST['sexo'];
 $fone = $_POST['fone'];
 $email = $_POST['email'];
-$usuario->atualizar($id, $nome, $sexo, $fone, $email, $senha);
+$usuario->atualizar($id, $nome, $sexo, $fone, $email);
 header('Location: portal.php');
 exit();
 }
