@@ -25,15 +25,25 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Globalist - Your window to the world</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <div class="hero">
-        <h1 class="logo">THE GLOBALIST</h1>
-        <p class="tagline">Sua Janela para o Mundo</p>
-        <button class="login-btn" onclick="openModal()">Entrar</button>
-    </div>
+    <header class="main-header">
+        <div class="header-content">
+            <h1 class="logo">THE GLOBALIST</h1>
+            <button class="login-btn" onclick="openModal()">Entrar</button>
+        </div>
+    </header>
+
+    <main class="news-container">
+        <section class="featured-news">
+            <h2>Notícias em Destaque</h2>
+            <div class="empty-state">
+                <p>Nenhuma notícia publicada ainda.</p>
+                <p>Seja o primeiro a compartilhar uma notícia!</p>
+            </div>
+        </section>
+    </main>
 
     <div class="modal" id="loginModal">
         <div class="modal-content">
@@ -82,7 +92,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             document.getElementById('loginModal').classList.remove('active');
         }
 
-        // Fechar modal quando clicar fora dele
         window.onclick = function(event) {
             const modal = document.getElementById('loginModal');
             if (event.target == modal) {
@@ -90,7 +99,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             }
         }
 
-        // Fechar modal com a tecla ESC
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 closeModal();
