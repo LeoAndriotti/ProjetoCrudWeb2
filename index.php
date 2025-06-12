@@ -3,20 +3,34 @@ session_start();
 include_once 'config/config.php';
 include_once 'classes/Usuario.php';
 
+
 $usuario = new Usuario($db);
 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    if(isset($_POST['login'])){
-        $email = $_POST['login'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['entrar'])) {
+    echo "Formulário enviado<br>";
+
+    if (!empty($_POST['email']) && !empty($_POST['senha'])) {
+        $email = $_POST['email'];
         $senha = $_POST['senha'];
-        if($dados_usuario = $usuario->login($email, $senha)){
+
+        echo "Email: $email<br>";
+        echo "Senha: $senha<br>";
+
+        if ($dados_usuario = $usuario->login($email, $senha)) {
+            echo "Login bem-sucedido!<br>";
             $_SESSION['usuario_id'] = $dados_usuario['id'];
+            echo "Redirecionando para portal.php...<br>";
             header('Location: portal.php');
             exit();
-        }else{
+        } else {
+            echo "Login falhou!<br>";
             $mensagem_erro = 'Credenciais inválidas!';
         }
+    } else {
+        echo "Email ou senha vazios<br>";
     }
+
+    exit(); // Evita que continue a renderização do HTML
 }
 ?>
 <!DOCTYPE html>
@@ -41,13 +55,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             <form method="POST">
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" name="login" id="email" required placeholder="Seu email">
+                    <input type="email" name="email" id="email" required placeholder="Seu email">
                 </div>
                 <div class="form-group">
                     <label for="senha">Senha</label>
                     <input type="password" name="senha" id="senha" required placeholder="Sua senha">
                 </div>
-                <button type="submit" name="submit" class="submit-btn">Entrar</button>
+                <button type="submit" name="entrar" class="submit-btn">Entrar</button>
             </form>
             <div class="register-link">
                 <p>Não tem uma conta? <a href="./registrar.php">Registre-se aqui</a></p>

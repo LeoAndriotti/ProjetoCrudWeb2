@@ -8,7 +8,6 @@ if (!isset($_SESSION['usuario_id'])) {
     exit();
 }
 $usuario = new Usuario($db);
-// Processar exclusão de usuário
 if (isset($_GET['deletar'])) {
     $id = $_GET['deletar'];
 
@@ -16,18 +15,14 @@ if (isset($_GET['deletar'])) {
     header('Location: portal.php');
     exit();
 }
-// Obter dados do usuário logado
 $dados_usuario = $usuario->lerPorId($_SESSION['usuario_id']);
 if ($dados_usuario) {
     $nome_usuario = $dados_usuario['nome'];
 } else {
-    // Se não encontrar o usuário, redireciona para o logout
     header('Location: logout.php');
     exit();
 }
-// Obter dados dos usuários
 $dados = $usuario->ler();
-// Função para determinar a saudação
 function saudacao() {
     $hora = date('H');
     if ($hora >= 6 && $hora < 12) {
@@ -57,18 +52,18 @@ function saudacao() {
     </div>
 
     <div class="portal-container">
-        <a href="registrar.php" class="portal-add-btn">+ Adicionar Novo Usuário</a>
+        <a href="cadastrarNoticia.php" class="portal-add-btn">+ Adicionar Notícia</a>
         
         <div class="portal-table-container">
             <table class="portal-table">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Nome</th>
-                        <th>Sexo</th>
-                        <th>Fone</th>
-                        <th>Email</th>
-                        <th>Ações</th>
+                        <th>Titulo</th>
+                        <th>Noticia</th>
+                        <th>Data</th>
+                        <th>Autor</th>
+                        <th>Imagem</th>
                     </tr>
                 </thead>
                 <tbody>
