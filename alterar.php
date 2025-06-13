@@ -7,19 +7,23 @@ if(!isset($_SESSION['usuario_id'])) {
 include_once './config/config.php';
 include_once './classes/Usuario.php';
 $usuario = new Usuario($db);
+
+// Inicializa $row como null
+$row = null;
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-$id = $_POST['id'];
-$nome = $_POST['nome'];
-$sexo = $_POST['sexo'];
-$fone = $_POST['fone'];
-$email = $_POST['email'];
-$usuario->atualizar($id, $nome, $sexo, $fone, $email);
-header('Location: portal.php');
-exit();
+    $id = $_POST['id'];
+    $nome = $_POST['nome'];
+    $sexo = $_POST['sexo'];
+    $fone = $_POST['fone'];
+    $email = $_POST['email'];
+    $usuario->atualizar($id, $nome, $sexo, $fone, $email);
+    header('Location: portal.php');
+    exit();
 }
 if (isset($_GET['id'])) {
-$id = $_GET['id'];
-$row = $usuario->lerPorId($id);
+    $id = $_GET['id'];
+    $row = $usuario->lerPorId($id);
 }
 ?>
 <!DOCTYPE html>
@@ -30,10 +34,13 @@ $row = $usuario->lerPorId($id);
 </head>
 <body>
 <h1>Editar Usuário</h1>
+<?php if (!$row): ?>
+    <div style="color: red; font-weight: bold;">Usuário não encontrado!</div>
+<?php else: ?>
 <form method="POST">
-<input type="hidden" name="id" value="<?php echo $row['id']; ?>">
+<input type="hidden" name="id" value="<?php echo htmlspecialchars($row['id']); ?>">
 <label for="nome">Nome:</label>
-<input type="text" name="nome" value="<?php echo $row['nome']; ?>" required>
+<input type="text" name="nome" value="<?php echo htmlspecialchars($row['nome']); ?>" required>
 <br><br>
 <label>Sexo:</label>
 <label for="masculino_editar">
@@ -44,12 +51,13 @@ $row = $usuario->lerPorId($id);
 </label>
 <br><br>
 <label for="fone">Fone:</label>
-<input type="text" name="fone" value="<?php echo $row['fone']; ?>" required>
+<input type="text" name="fone" value="<?php echo htmlspecialchars($row['fone']); ?>" required>
 <br><br>
 <label for="email">Email:</label>
-<input type="email" name="email" value="<?php echo $row['email']; ?>" required>
+<input type="email" name="email" value="<?php echo htmlspecialchars($row['email']); ?>" required>
 <br><br>
 <input type="submit" value="Atualizar">
 </form>
+<?php endif; ?>
 </body>
 </html>

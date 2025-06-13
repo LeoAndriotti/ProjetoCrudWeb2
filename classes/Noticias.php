@@ -37,5 +37,12 @@ class Noticias{
             return $stmt;
         }
 
+        public function lerPorAutor($autor_id){
+            $query = "SELECT * FROM " . $this->table_name . " WHERE autor = ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute([$autor_id]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
 }
 ?>
