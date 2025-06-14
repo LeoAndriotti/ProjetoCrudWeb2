@@ -35,6 +35,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $sql = "SELECT id, nome FROM usuarios ORDER BY nome ASC";
 $stmt = $db->query($sql);
 $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$sqlCat = "SELECT id,nome FROM categorias ORDER BY nome ASC";
+$stmt = $db->query($sqlCat);
+$categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -42,7 +46,7 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Globalist - Adicionar Notícia</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./uploads/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -94,6 +98,19 @@ $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <?php foreach ($usuarios as $usuario): ?>
                                 <option value="<?= htmlspecialchars($usuario['id']) ?>">
                                     <?= htmlspecialchars($usuario['nome']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="categoria">
+                            <i class="fas fa-list"></i> Categoria
+                        </label>
+                        <select name="categoria" id="categoria" required>
+                            <option value="">Selecione uma categoria</option>
+                            <?php foreach ($categorias as $categorias): ?>
+                                <option value="<?= htmlspecialchars($categorias['id']) ?>">
+                                    <?= htmlspecialchars($categorias['nome']) ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>

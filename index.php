@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['entrar'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CSL Times</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./uploads/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -77,12 +77,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['entrar'])) {
 
     <header class="main-header">
         <div class="header-content">
+          
             <h1 class="logo">CSL Times</h1>
         </div>
     </header>
 
     <main class="news-container">
-        <section class="featured-news">
+        <section class="featured-news" style="text-align:center;">
+            <img src="./assets/img/logo2.png" alt="Logo CSL Times" class="logo-img" style="display:block;margin:0 auto 10px auto;max-width:250px;">
             <h2>CSL Times - Your window to the world!</h2>
             <?php if (empty($todas_noticias)): ?>
                 <div class="empty-state">
@@ -157,11 +159,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['entrar'])) {
 
     <footer class="footer-main">
         <div class="social-links">
-            <a href="#" class="linkedin" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
-            <a href="#" class="facebook" title="Facebook"><i class="fab fa-facebook"></i></a>
-            <a href="#" class="instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="youtube" title="YouTube"><i class="fab fa-youtube"></i></a>
-            <a href="#" class="twitter" title="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="https://br.linkedin.com" class="linkedin" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="https://pt-br.facebook.com" class="facebook" title="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.instagram.com" class="instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.youtube.com/?gl=BR" class="youtube" title="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://x.com/" class="twitter" title="Twitter"><i class="fab fa-twitter"></i></a>
         </div>
         <div class="copyright">
             &copy; <?php echo date('Y'); ?> CSL Times. Todos os direitos reservados.

@@ -42,7 +42,7 @@ function saudacao() {
 <head>
     <meta charset="UTF-8">
     <title>CSL Times - Portal</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./uploads/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="portal-body">
@@ -88,7 +88,7 @@ function saudacao() {
                                 <span class="news-date">
                                     <i class="fas fa-calendar"></i>
                                     <?php echo date('d/m/Y', strtotime($noticia['data'])); ?>
-                                </span>
+s                                </span>
                             </div>
                         </div>
                         <div class="news-card-actions">

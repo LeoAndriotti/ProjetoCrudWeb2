@@ -31,6 +31,9 @@ body {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+.logo-img {
+    margin-left: 100px;
+}
 .tagline {
     font-size: 1.5rem;
     margin-bottom: 2rem;

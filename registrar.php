@@ -18,23 +18,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Adicionar Usuário</title>
+    <link rel="stylesheet" href="./uploads/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <h1>Adicionar Usuário</h1>
+    <h1><i class="fa-solid fa-user-plus"></i>Adicionar Usuário</h1>
     <form method="POST">
 
         <label for="nome">Nome:</label>
         <input type="text" name="nome" required>
         <br><br>
         <label>Sexo:</label>
-        <label for="masculino">
+        <label for="masculino" <i class="fa-solid fa-mars"></i>
             <input type="radio" id="masculino" name="sexo" value="M" required> Masculino
         </label>
-        <label for="feminino">
+        <label for="feminino" <i class="fa-solid fa-venus"></i>
             <input type="radio" id="feminino" name="sexo" value="F" required> Feminino
         </label>
         <br><br>
-        <label for="fone">Fone:</label>
+        <label for="fone">Telefone:</label>
         <input type="text" name="fone" required>
         <br><br>
         <label for="email">Email:</label>
@@ -43,7 +45,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <label for="senha">Senha:</label>
         <input type="password" name="senha" required>
         <br><br>
-        <input type="submit" value="Adicionar">
+        <button type="submit" class="submit-btn">
+                    <i class="fas fa-plus"></i> Adicionar Usuário
+                </button>
     </form>
 </body>
 </html>

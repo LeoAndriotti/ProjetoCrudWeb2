@@ -44,5 +44,12 @@ class Noticias{
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
+        public function lerPorCategoria($categoria_id){
+            $query = "SELECT * FROM " . $this->table_name . " WHERE categoria = ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute([$autor_id]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
 }
 ?>
