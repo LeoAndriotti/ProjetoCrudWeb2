@@ -29,10 +29,13 @@ body {
     letter-spacing: 4px;
     margin-bottom: 1rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    margin-top: 0;
 }
 
 .logo-img {
-    margin-left: 100px;
+    display: block;
+    margin: 60px auto 10px auto;
+    max-width: 250px;
 }
 .tagline {
     font-size: 1.5rem;
@@ -757,12 +760,20 @@ body {
 
 .news-meta {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
     font-size: 0.9rem;
     color: #7f8c8d;
     border-top: 1px solid #eee;
     padding-top: 1rem;
+    gap: 0.8rem;
+}
+
+.news-meta-top {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
 }
 
 .news-author, .news-date {
@@ -773,6 +784,28 @@ body {
 
 .news-author i, .news-date i {
     color: #3498db;
+}
+
+.news-category {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #f8f9fa;
+    padding: 0.3rem 1.2rem;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    color: #2c3e50;
+    transition: all 0.3s ease;
+    justify-content: center;
+}
+
+.news-category:hover {
+    background: #e9ecef;
+    transform: translateY(-2px);
+}
+
+.news-category i {
+    color: #2ecc71;
 }
 
 .featured-news {
@@ -814,6 +847,17 @@ body {
     .news-card {
         max-width: 500px;
         margin: 0 auto;
+    }
+
+    .news-meta-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .news-author, .news-date {
+        width: 100%;
+        justify-content: flex-start;
     }
 }
 
@@ -961,4 +1005,181 @@ body {
         height: 30px;
         font-size: 1rem;
     }
+}
+
+/* Estilos para o formulário de notícias */
+.news-form {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.news-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.news-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: 500;
+}
+
+.news-form input[type="text"],
+.news-form select,
+.news-form textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.news-form textarea {
+    min-height: 200px;
+    resize: vertical;
+}
+
+.image-upload-container {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    margin-top: 1rem;
+}
+
+.current-image {
+    flex: 0 0 200px;
+    text-align: center;
+}
+
+.current-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.current-image p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.new-image {
+    flex: 1;
+}
+
+.image-preview {
+    border: 2px dashed #ddd;
+    border-radius: 4px;
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.image-preview:hover {
+    border-color: #007bff;
+    background: #f8f9fa;
+}
+
+.image-preview i {
+    font-size: 2rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.image-preview p {
+    color: #666;
+    margin: 0;
+}
+
+.image-preview img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: #007bff;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #0056b3;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn-secondary:hover {
+    background: #545b62;
+}
+
+.error-message {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .image-upload-container {
+        flex-direction: column;
+    }
+
+    .current-image {
+        flex: 0 0 auto;
+        margin-bottom: 1rem;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+.header-content {
+    padding-top: 100px;
+}
+
+.login-error {
+    color: #fff;
+    background: #d9534f;
+    padding: 10px 20px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: bold;
 } 

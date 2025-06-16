@@ -8,6 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $noticia = $_POST['noticia'];
     $data = $_POST['data'];
     $autor = $_POST['autor'];
+    $categoria_id = $_POST['categoria'];
     $imagem = '';
 
     // Prioriza upload
@@ -27,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $imagem = trim($_POST['imagem_url']);
     }
 
-    $noticias->criar($titulo, $noticia, $data, $autor, $imagem);
+    $noticias->criar($titulo, $noticia, $data, $autor, $imagem, $categoria_id);
     header('Location: portal.php');
     exit();
 }
@@ -45,14 +46,15 @@ $categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Globalist - Adicionar Notícia</title>
     <link rel="stylesheet" href="./uploads/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="./assets/img/logo2.png" type="image/png">
 </head>
 <body class="portal-body">
     <div class="portal-header">
-        <h1>Adicionar Notícia</h1>
+    <img src="./assets/img/logo2.png" alt="CSL Times" class="portal-logo-img" style="width: 140px; height: 120px;">
+
         <div class="portal-nav">
             <a href="portal.php"><i class="fas fa-arrow-left"></i> Voltar ao Portal</a>
             <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a>

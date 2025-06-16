@@ -3,39 +3,34 @@ session_start();
 include_once 'config/config.php';
 include_once 'classes/Usuario.php';
 include_once 'classes/Noticias.php';
+include_once 'classes/Categoria.php';
 
 $usuario = new Usuario($db);
 $noticias = new Noticias($db);
+$categoria = new Categoria($db);
 
-// Buscar todas as notícias
 $todas_noticias = $noticias->ler();
 
+// Buscar as 5 últimas notícias
+$ultimas_noticias = $db->query("SELECT * FROM noticias ORDER BY data DESC, id DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
+
+$erro_login = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['entrar'])) {
-    echo "Formulário enviado<br>";
+    $email = $_POST['email'];
+    $senha = $_POST['senha'];
 
-    if (!empty($_POST['email']) && !empty($_POST['senha'])) {
-        $email = $_POST['email'];
-        $senha = $_POST['senha'];
+    // Buscar usuário pelo email
+    $usuario_data = $usuario->buscarPorEmail($email);
 
-        echo "Email: $email<br>";
-        echo "Senha: $senha<br>";
-
-        if ($dados_usuario = $usuario->login($email, $senha)) {
-            echo "Login bem-sucedido!<br>";
-            $_SESSION['usuario_id'] = $dados_usuario['id'];
-            echo "Redirecionando para portal.php...<br>";
-            header('Location: portal.php');
-            exit();
-        } else {
-            echo "Login falhou!<br>";
-            $mensagem_erro = 'Credenciais inválidas!';
-        }
+    if ($usuario_data && password_verify($senha, $usuario_data['senha'])) {
+        $_SESSION['usuario_id'] = $usuario_data['id'];
+        header('Location: portal.php');
+        exit();
     } else {
-        echo "Email ou senha vazios<br>";
+        $erro_login = 'Email ou senha inválidos';
     }
-
-    exit(); // Evita que continue a renderização do HTML
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -45,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['entrar'])) {
     <title>CSL Times</title>
     <link rel="stylesheet" href="./uploads/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="./assets/img/logo2.png" type="image/png">
 </head>
 <body>
     <div class="currency-ticker">
@@ -78,7 +74,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['entrar'])) {
     <header class="main-header">
         <div class="header-content">
           
-            <h1 class="logo">CSL Times</h1>
         </div>
     </header>
 
@@ -88,8 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['entrar'])) {
             <h2>CSL Times - Your window to the world!</h2>
             <?php if (empty($todas_noticias)): ?>
                 <div class="empty-state">
-                    <p>Nenhuma notícia publicada ainda.</p>
-                    <p>Seja o primeiro a compartilhar uma notícia!</p>
+                    <p>Publique a sua notícia, acessando o portal!</p>
                 </div>
             <?php else: ?>
                 <div class="news-grid">
@@ -112,16 +106,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['entrar'])) {
                                 <h3 class="news-title"><?php echo htmlspecialchars($noticia['titulo']); ?></h3>
                                 <p class="news-excerpt"><?php echo htmlspecialchars(substr($noticia['noticia'], 0, 150)) . '...'; ?></p>
                                 <div class="news-meta">
-                                    <span class="news-author">
-                                        <i class="fas fa-user"></i>
+                                    <div class="news-meta-top">
+                                        <span class="news-author">
+                                            <i class="fas fa-user"></i>
+                                            <?php 
+                                                $autor = $usuario->lerPorId($noticia['autor']);
+                                                echo htmlspecialchars($autor['nome'] ?? 'Autor desconhecido');
+                                            ?>
+                                        </span>
+                                        <span class="news-date">
+                                            <i class="fas fa-calendar"></i>
+                                            <?php echo date('d/m/Y', strtotime($noticia['data'])); ?>
+                                        </span>
+                                    </div>
+                                    <span class="news-category">
+                                        <i class="fas fa-tag"></i>
                                         <?php 
-                                            $autor = $usuario->lerPorId($noticia['autor']);
-                                            echo htmlspecialchars($autor['nome'] ?? 'Autor desconhecido');
+                                            $cat = $categoria->lerPorId($noticia['categoria']);
+                                            echo htmlspecialchars($cat['nome'] ?? 'Sem categoria');
                                         ?>
                                     </span>
-                                    <span class="news-date">
-                                        <i class="fas fa-calendar"></i>
-                                        <?php echo date('d/m/Y', strtotime($noticia['data'])); ?>
+                                </div>
+                            </div>
+                        </article>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </section>
+
+        <!-- Exibir as 5 últimas notícias -->
+        <section class="ultimas-noticias">
+            <h2>Últimas Notícias</h2>
+            <?php if (!empty($ultimas_noticias)): ?>
+                <div class="news-grid">
+                    <?php foreach ($ultimas_noticias as $noticia): ?>
+                        <article class="news-card">
+                            <?php if (!empty($noticia['imagem'])): ?>
+                                <div class="news-image">
+                                    <img src="<?php echo htmlspecialchars($noticia['imagem']); ?>" alt="<?php echo htmlspecialchars($noticia['titulo']); ?>">
+                                </div>
+                            <?php endif; ?>
+                            <div class="news-content">
+                                <h3 class="news-title"><?php echo htmlspecialchars($noticia['titulo']); ?></h3>
+                                <p class="news-excerpt"><?php echo htmlspecialchars(substr($noticia['noticia'], 0, 150)) . '...'; ?></p>
+                                <div class="news-meta">
+                                    <div class="news-meta-top">
+                                        <span class="news-date">
+                                            <i class="fas fa-calendar"></i>
+                                            <?php echo date('d/m/Y', strtotime($noticia['data'])); ?>
+                                        </span>
+                                    </div>
+                                    <span class="news-category">
+                                        <i class="fas fa-tag"></i>
+                                        <?php 
+                                            $cat = $categoria->lerPorId($noticia['categoria']);
+                                            echo htmlspecialchars($cat['nome'] ?? 'Sem categoria');
+                                        ?>
                                     </span>
                                 </div>
                             </div>
@@ -149,10 +189,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['entrar'])) {
             <div class="register-link">
                 <p>Não tem uma conta? <a href="./registrar.php">Registre-se aqui</a></p>
             </div>
-            <?php if (isset($mensagem_erro)): ?>
-                <div class="mensagem">
-                    <?php echo $mensagem_erro; ?>
-                </div>
+            
+            <?php if (!empty($erro_login)): ?>
+                <div class="login-error"><?php echo $erro_login; ?></div>
             <?php endif; ?>
         </div>
     </div>
@@ -171,7 +210,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['entrar'])) {
     </footer>
 
     <script>
-        // Função para atualizar as cotações
         async function updateCurrencies() {
             try {
                 const response = await fetch('https://economia.awesomeapi.com.br/json/last/USD-BRL,EUR-BRL,BTC-BRL,GBP-BRL');
@@ -189,11 +227,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['entrar'])) {
             }
         }
 
-        // Atualiza as cotações a cada 5 minutos
         updateCurrencies();
         setInterval(updateCurrencies, 300000);
 
-        // Funções existentes do modal
         function openModal() {
             document.getElementById('loginModal').classList.add('active');
         }

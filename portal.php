@@ -3,6 +3,7 @@ session_start();
 include_once './config/config.php';
 include_once './classes/Usuario.php';
 include_once './classes/Noticias.php';
+include_once './classes/Categoria.php';
 // Verificar se o usuário está logado
 if (!isset($_SESSION['usuario_id'])) {
     header('Location: index.php');
@@ -10,6 +11,7 @@ if (!isset($_SESSION['usuario_id'])) {
 }
 $usuario = new Usuario($db);
 $noticias = new Noticias($db);
+$categoria = new Categoria($db);
 if (isset($_GET['deletar'])) {
     $id = $_GET['deletar'];
     $usuario->deletar($id);
@@ -44,14 +46,16 @@ function saudacao() {
     <title>CSL Times - Portal</title>
     <link rel="stylesheet" href="./uploads/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="./assets/img/logo2.png" type="image/png">
+
 </head>
 <body class="portal-body">
     <div class="portal-header portal-header-portal">
-        <div class="portal-logo">CSL Times</div>
+        <img src="./assets/img/logo2.png" alt="CSL Times" class="portal-logo-img" style="width: 150px; height: 130px;">
         <div class="portal-header-content">
             <h1><span class="saudacao-portal"><?php echo saudacao(); ?></span>, <?php echo $nome_usuario; ?>!</h1>
             <div class="portal-nav">
-                <a href="alterar.php"><i class="fas fa-user-plus"></i> Editar Usuário</a>
+                <a href="alterar.php?id=<?php echo $usuario_id; ?>"><i class="fas fa-user-edit"></i> Editar Usuário</a>
                 <a href="logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a>
             </div>
         </div>
@@ -85,14 +89,23 @@ function saudacao() {
                             <h3 class="news-title"><?php echo htmlspecialchars($noticia['titulo']); ?></h3>
                             <p class="news-excerpt"><?php echo htmlspecialchars(substr($noticia['noticia'], 0, 150)) . '...'; ?></p>
                             <div class="news-meta">
-                                <span class="news-date">
-                                    <i class="fas fa-calendar"></i>
-                                    <?php echo date('d/m/Y', strtotime($noticia['data'])); ?>
-s                                </span>
+                                <div class="news-meta-top">
+                                    <span class="news-date">
+                                        <i class="fas fa-calendar"></i>
+                                        <?php echo date('d/m/Y', strtotime($noticia['data'])); ?>
+                                    </span>
+                                </div>
+                                <span class="news-category">
+                                    <i class="fas fa-tag"></i>
+                                    <?php 
+                                        $cat = $categoria->lerPorId($noticia['categoria']);
+                                        echo htmlspecialchars($cat['nome'] ?? 'Sem categoria');
+                                    ?>
+                                </span>
                             </div>
                         </div>
                         <div class="news-card-actions">
-                            <a href="editarNoticia.php?id=<?php echo $noticia['id']; ?>" class="news-edit-btn" title="Editar Notícia"><i class="fas fa-edit"></i></a>
+                            <a href="alterarNoticia.php?id=<?php echo $noticia['id']; ?>" class="news-edit-btn" title="Editar Notícia"><i class="fas fa-edit"></i></a>
                             <a href="deletarNoticia.php?id=<?php echo $noticia['id']; ?>" class="news-delete-btn" title="Excluir Notícia"><i class="fas fa-trash-alt"></i></a>
                         </div>
                     </article>
