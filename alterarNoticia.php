@@ -84,7 +84,7 @@ function saudacao() {
     <title>Editar Notícia - Portal de Notícias</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="uploads/style.css">
-    <link rel="icon" href="./assets/img/logo2.png" type="image/png">
+    <link rel="icon" href="./assets/img/logo.png" type="image/png">
 </head>
 <body>
     <div class="portal-header portal-header-portal">

@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Editar Usuário - CSL Times</title>
     <link rel="stylesheet" href="./uploads/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="icon" href="./assets/img/logo2.png" type="image/png">
+    <link rel="icon" href="./assets/img/logo.png" type="image/png">
 </head>
 <body class="portal-body">
     <div class="portal-header portal-header-portal">

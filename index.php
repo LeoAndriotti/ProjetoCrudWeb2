@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['entrar'])) {
     <title>CSL Times</title>
     <link rel="stylesheet" href="./uploads/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="icon" href="./assets/img/logo2.png" type="image/png">
+    <link rel="icon" href="./assets/img/logo.png" type="image/png">
 </head>
 <body>
     <div class="currency-ticker">
