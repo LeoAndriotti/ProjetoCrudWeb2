@@ -11,15 +11,13 @@ $categoria = new Categoria($db);
 
 $todas_noticias = $noticias->ler();
 
-// Buscar as 5 últimas notícias
-$ultimas_noticias = $db->query("SELECT * FROM noticias ORDER BY data DESC, id DESC LIMIT 5")->fetchAll(PDO::FETCH_ASSOC);
+$ultimas_noticias = $noticias->lerUltimas(5);
 
 $erro_login = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['entrar'])) {
     $email = $_POST['email'];
     $senha = $_POST['senha'];
 
-    // Buscar usuário pelo email
     $usuario_data = $usuario->buscarPorEmail($email);
 
     if ($usuario_data && password_verify($senha, $usuario_data['senha'])) {
@@ -134,42 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['entrar'])) {
             <?php endif; ?>
         </section>
 
-        <!-- Exibir as 5 últimas notícias -->
-        <section class="ultimas-noticias">
-            <h2>Últimas Notícias</h2>
-            <?php if (!empty($ultimas_noticias)): ?>
-                <div class="news-grid">
-                    <?php foreach ($ultimas_noticias as $noticia): ?>
-                        <article class="news-card">
-                            <?php if (!empty($noticia['imagem'])): ?>
-                                <div class="news-image">
-                                    <img src="<?php echo htmlspecialchars($noticia['imagem']); ?>" alt="<?php echo htmlspecialchars($noticia['titulo']); ?>">
-                                </div>
-                            <?php endif; ?>
-                            <div class="news-content">
-                                <h3 class="news-title"><?php echo htmlspecialchars($noticia['titulo']); ?></h3>
-                                <p class="news-excerpt"><?php echo htmlspecialchars(substr($noticia['noticia'], 0, 150)) . '...'; ?></p>
-                                <div class="news-meta">
-                                    <div class="news-meta-top">
-                                        <span class="news-date">
-                                            <i class="fas fa-calendar"></i>
-                                            <?php echo date('d/m/Y', strtotime($noticia['data'])); ?>
-                                        </span>
-                                    </div>
-                                    <span class="news-category">
-                                        <i class="fas fa-tag"></i>
-                                        <?php 
-                                            $cat = $categoria->lerPorId($noticia['categoria']);
-                                            echo htmlspecialchars($cat['nome'] ?? 'Sem categoria');
-                                        ?>
-                                    </span>
-                                </div>
-                            </div>
-                        </article>
-                    <?php endforeach; ?>
-                </div>
-            <?php endif; ?>
-        </section>
+        
     </main>
 
     <div class="modal" id="loginModal">
@@ -187,7 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['entrar'])) {
                 <button type="submit" name="entrar" class="submit-btn">Entrar</button>
             </form>
             <div class="register-link">
-                <p>Não tem uma conta? <a href="./registrar.php">Registre-se aqui</a></p>
+                <p style="color:black;">Não tem uma conta? <a href="./registrar.php">Registre-se aqui</a></p>
             </div>
             
             <?php if (!empty($erro_login)): ?>
@@ -248,6 +211,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['entrar'])) {
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 closeModal();
+            }
+        });
+
+        // Controle do footer
+        window.addEventListener('scroll', function() {
+            const footer = document.querySelector('.footer-main');
+            const scrollPosition = window.scrollY + window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            
+            // Mostra o footer quando estiver próximo ao final da página
+            if (scrollPosition >= documentHeight - 100) {
+                footer.classList.add('visible');
+            } else {
+                footer.classList.remove('visible');
             }
         });
     </script>

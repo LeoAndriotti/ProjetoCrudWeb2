@@ -51,7 +51,7 @@ function saudacao() {
 </head>
 <body class="portal-body">
     <div class="portal-header portal-header-portal">
-        <img src="./assets/img/logo2.png" alt="CSL Times" class="portal-logo-img" style="width: 150px; height: 130px;">
+        <img src="./assets/img/logo2.png" alt="CSL Times" class="portal-logo-img" style="width: 160px; height: 130px;">
         <div class="portal-header-content">
             <h1><span class="saudacao-portal"><?php echo saudacao(); ?></span>, <?php echo $nome_usuario; ?>!</h1>
             <div class="portal-nav">
@@ -112,6 +112,6 @@ function saudacao() {
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
-        
+    </div>
 </body>
 </html>

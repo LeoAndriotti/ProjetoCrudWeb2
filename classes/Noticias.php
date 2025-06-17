@@ -13,24 +13,39 @@ class Noticias{
     public function __construct($db){
         $this -> conn = $db;
     }   
-        public function registrar($titulo, $noticia, $data, $autor, $imagem){
-            $query = "INSERT INTO " . $this->table_name . " (titulo, noticia, data, autor, imagem) VALUES (?, ?, ?, ?, ?)";
+        public function registrar($titulo, $noticia, $data, $autor, $imagem, $categoria_id){
+            $query = "INSERT INTO " . $this->table_name . " (titulo, noticia, data, autor, imagem, categoria) VALUES (?, ?, ?, ?, ?, ?)";
             $stmt = $this->conn->prepare($query);
-            $stmt->execute([$titulo, $noticia, $data, $autor, $imagem]);
+            $stmt->execute([$titulo, $noticia, $data, $autor, $imagem, $categoria_id]);
             return $stmt;
         }
 
-        public function criar($titulo, $noticia, $data, $autor, $imagem){
-            return $this->registrar($titulo, $noticia, $data, $autor, $imagem);
+        public function criar($titulo, $noticia, $data, $autor, $imagem, $categoria){
+            return $this->registrar($titulo, $noticia, $data, $autor, $imagem, $categoria);
         }
         
         public function ler() {
+            if ($this->id) {
+                return $this->lerPorId($this->id);
+            }
+            return $this->lerUltimas(3);
+        }
+
+        public function lerUltimas($limite) {
+            $query = "SELECT * FROM " . $this->table_name . " ORDER BY data DESC, id DESC LIMIT " . (int)$limite;
+            $stmt = $this->conn->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function lerPorId($id){
             $query = "SELECT * FROM " . $this->table_name . " WHERE id = ?";
             $stmt = $this->conn->prepare($query);
-            $stmt->execute([$this->id]);
+            $stmt->execute([$id]);
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             
             if($row) {
+                $this->id = $row['id'];
                 $this->titulo = $row['titulo'];
                 $this->conteudo = $row['noticia'];
                 $this->data = $row['data'];
@@ -40,12 +55,6 @@ class Noticias{
                 return true;
             }
             return false;
-        }
-        public function lerPorId($id){
-            $query = "SELECT * FROM " . $this->table_name . " WHERE id = ?";
-            $stmt = $this->conn->prepare($query);
-            $stmt->execute([$id]);
-            return $stmt->fetch(PDO::FETCH_ASSOC);
         }
         
         public function deletar($id){

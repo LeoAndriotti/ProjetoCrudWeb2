@@ -165,6 +165,7 @@ body {
     margin-top: 1.5rem;
 }
 
+
 .register-link a {
     color: #3498db;
     text-decoration: none;
@@ -188,15 +189,19 @@ body {
 /* Footer Styles */
 .footer-main {
     position: fixed;
-    bottom: 0;
+    bottom: -100px; /* Começa escondido */
     left: 0;
     width: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    padding: 1.5rem 0;
+    background-color: #1a1a1a;
+    color: #fff;
+    padding: 20px 0;
     text-align: center;
-    backdrop-filter: blur(10px);
-    z-index: 100;
-    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
+    transition: bottom 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+.footer-main.visible {
+    bottom: 0;
 }
 
 .social-links {
@@ -700,7 +705,6 @@ body {
     }
 }
 
-/* News Grid Styles */
 .news-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
